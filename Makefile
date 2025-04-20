@@ -1,4 +1,4 @@
-TEXFILES = report notes
+TEXFILES = report task1A
 SRCDIR = docs
 BUILDDIR = bin
 

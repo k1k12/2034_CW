@@ -7,15 +7,27 @@
 \usepackage{lipsum}
 \usepackage{setspace}
 \usepackage{parskip}
+\usepackage{fancyhdr}
 \input{version.tex}
 
 \title{Task 1A: Initial Data Analysis}
 \author{Sofia French}
 \date{\today}
 
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[L]{\small Commit: \gitcommit}
+\fancyfoot[R]{\small Build: \builddate}
+\renewcommand{\headrulewidth}{0pt}
 \begin{document}
 
 \maketitle
+
+\vspace{-1em}
+\begin{center}
+\textit{Built on \builddate{} \quad | \quad Git commit: \texttt{\gitcommit}}
+\end{center}
+\vspace{1em}
 
 \section*{Overview}
 
@@ -58,13 +70,11 @@ For a side-by-side comparison, both quality distributions were plotted on a sing
     \label{fig:combined_quality}
 \end{figure}
 
-\textbf{Insights:}
+\textbf{Final Summary:}
 \begin{itemize}
     \item Red wine quality is tightly clustered around 5 and 6.
     \item White wine quality is more variable, with a longer right tail (which suggests more high-quality samples).
     \item Overall, white wine shows a slightly higher mean quality, though both distributions are skewed and non-uniform.
 \end{itemize}
-
-\section*{Next Steps}
 
 \end{document}
