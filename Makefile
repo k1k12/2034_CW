@@ -7,7 +7,7 @@ BUILD_DATE := $(shell date "+%Y-%m-%d")
 
 define VERSION_INFO
 \def\gitcommit{$(GIT_HASH)}
-\def\builddate{$(BUILD_DATE)}
+\\def\\builddate{${BUILD_DATE}}
 endef
 
 export VERSION_INFO
