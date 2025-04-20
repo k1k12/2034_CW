@@ -17,4 +17,5 @@ sns.countplot(data=wine_white, x="quality",ax=axes[1])
 axes[1].set_title("White Wine Quality Distribution")
 
 plt.tight_layout()
+plt.savefig('figures/wine_quality_comparison.png')
 plt.show()
