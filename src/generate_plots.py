@@ -27,7 +27,7 @@ axes[0].set_ylabel("Count")
 
 # White
 sns.countplot(data=wine_white, x="quality",hue="quality",ax=axes[1],palette="Blues",legend=False)
-axes[0].set_title("White Wine Quality",fontsize=14)
+axes[1].set_title("White Wine Quality",fontsize=14)
 axes[1].set_xlabel("Quality Score")
 axes[1].set_ylabel("Count")
 
