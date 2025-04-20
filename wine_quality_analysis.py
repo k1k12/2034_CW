@@ -8,10 +8,13 @@ wine_white = pd.read_csv("datasets/winequality-white.csv",sep=";")
 wine_red.columns = wine_red.columns.str.strip()
 wine_white.columns = wine_white.columns.str.strip()
 
-sns.countplot(data=wine_red, x="quality")
-plt.title("Red Wine Quality Distribution")
-plt.show()
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
-sns.countplot(data=wine_white, x="quality")
-plt.title("White Wine Quality Distribution")
+sns.countplot(data=wine_red, x="quality",ax=axes[0])
+axes[0].set_title("Red Wine Quality Distribution")
+
+sns.countplot(data=wine_white, x="quality",ax=axes[1])
+axes[1].set_title("White Wine Quality Distribution")
+
+plt.tight_layout()
 plt.show()
