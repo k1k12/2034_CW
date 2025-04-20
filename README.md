@@ -49,6 +49,10 @@ pip install -r requirements.txt
 
 4. Run the notebook
 
+```bash 
+make notebook
+```
+OR, if you prefer to test with your own command:
 ```bash
 jupyter notebook notebooks/wine_analysis.ipynb
 ```
