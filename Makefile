@@ -1,6 +1,6 @@
 .PHONY: pdf empty
 
-TEXFILES = report, task1A
+TEXFILES = report task1A
 SRCDIR = latex
 BUILDDIR = bin
 ENDDIR = docs
@@ -22,6 +22,7 @@ pdf:
 		(cd $(SRCDIR) && latexmk -pdf -silent $$file.tex); \
 		mv $(BUILDDIR)/$$file.pdf $(ENDDIR)/$$file.pdf; \
 	done
+	jupyter nbconvert --to pdf --output-dir=docs notebooks/wine_analysis.ipynb
 
 empty:
 	@echo "Cleaning $(BUILDDIR)..."
