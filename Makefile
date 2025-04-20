@@ -33,6 +33,9 @@ empty:
 	        $(BUILDDIR)/*.synctex.gz \
 	        $(BUILDDIR)/*.fdb_latexmk
 
+plots:
+	python src/generate_plots.py
+
 notebook:
 	jupyter nbconvert --to notebook --execute notebooks/wine_analysis.ipynb \
 		--output wine_analysis_output.ipynb \
