@@ -1,6 +1,9 @@
-TEXFILES = report task1A
-SRCDIR = docs
+.PHONY: latex empty
+
+TEXFILES = report
+SRCDIR = latex
 BUILDDIR = bin
+ENDDIR = docs
 
 GIT_HASH := $(shell git rev-parse --short HEAD)
 BUILD_DATE := $(shell date "+%Y-%m-%d")
@@ -17,10 +20,10 @@ latex:
 	@for file in $(TEXFILES); do \
 		echo "Compiling $$file..."; \
 		(cd $(SRCDIR) && latexmk -pdf -silent $$file.tex); \
-		mv $(BUILDDIR)/$$file.pdf $(SRCDIR)/$$file.pdf; \
+		mv $(BUILDDIR)/$$file.pdf $(ENDDIR)/$$file.pdf; \
 	done
 
-clean:
+empty:
 	@echo "Cleaning $(BUILDDIR)..."
 	@rm -f $(BUILDDIR)/*.aux \
 	        $(BUILDDIR)/*.log \
