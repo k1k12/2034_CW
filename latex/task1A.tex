@@ -60,8 +60,7 @@ The same analysis was performed on the white wine dataset.
 
 \section*{Red vs. White Comparison}
 
-For a side-by-side comparison, both quality distributions were plotted on a single figure.
-
+To better understand how red and white wines compare, both quality distributions were plotted together (see Figure~\ref{fig:combined_quality}). It is important to note that the white wine dataset contains over three times as many samples as the red wine dataset (4,898 vs. 1,599), which impacts the visual scale and interpretation.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{../figures/wine_quality_comparison.png}
@@ -69,11 +68,14 @@ For a side-by-side comparison, both quality distributions were plotted on a sing
     \label{fig:combined_quality}
 \end{figure}
 
-\textbf{Final Summary:}
+\textbf{Interpretation:}
 \begin{itemize}
-    \item Red wine quality is tightly clustered around 5 and 6.
-    \item White wine quality is more variable, with a longer right tail (which suggests more high-quality samples).
-    \item Overall, white wine shows a slightly higher mean quality, though both distributions are skewed and non-uniform.
+    \item \textbf{Red Wines:} Quality scores are tightly clustered around 5 and 6, with relatively few samples scoring outside that range. This suggests consistency, but also limited variation.
+    \item \textbf{White Wines:} While also peaking at 5 and 6, the distribution is notably wider. A significant number of samples score 7, 8, or even 9 — which are absent from the red wine data. There are also more wines scoring 4.
+    \item \textbf{Sample Size Consideration:} The broader spread in the white wine distribution is partly due to the **larger sample size**, which introduces more variability and makes higher and lower quality scores more visible.
+    \item \textbf{Overall Implication:} While both types of wine tend to cluster around mid-level quality, white wine exhibits a **greater diversity** in perceived quality, which may point to differences in grape variety, fermentation control, or batch variation.
 \end{itemize}
+
+These early observations will guide further investigation into physicochemical factors that may explain why some wines — especially white — achieve higher sensory scores.
 
 \end{document}
