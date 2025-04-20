@@ -22,8 +22,10 @@ plt.show()
 
 sns.countplot(data=wine_red, x="quality")
 plt.savefig('figures/red_wine_quality.png')
+plt.title("Red Wine Quality Distribution")
 plt.show()
 
 sns.countplot(data=wine_red, x="quality")
 plt.savefig('figures/white_wine_quality.png')
+plt.title("White Wine Quality Distribution")
 plt.show()

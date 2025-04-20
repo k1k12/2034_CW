@@ -1,6 +1,6 @@
-.PHONY: latex empty
+.PHONY: pdf empty
 
-TEXFILES = report
+TEXFILES = report, task1A
 SRCDIR = latex
 BUILDDIR = bin
 ENDDIR = docs
@@ -15,7 +15,7 @@ endef
 
 export VERSION_INFO
 
-latex:
+pdf:
 	@echo "$$VERSION_INFO" > $(SRCDIR)/version.tex
 	@for file in $(TEXFILES); do \
 		echo "Compiling $$file..."; \
@@ -31,3 +31,6 @@ empty:
 	        $(BUILDDIR)/*.out \
 	        $(BUILDDIR)/*.synctex.gz \
 	        $(BUILDDIR)/*.fdb_latexmk
+
+plots:
+	python src/generate_plots.py
