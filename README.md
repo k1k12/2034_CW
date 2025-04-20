@@ -57,6 +57,14 @@ OR, if you prefer to test with your own command:
 jupyter notebook notebooks/wine_analysis.ipynb
 ```
 
+5. (optional) Use make commands
+To view progress, run different files and get the feel of my project, everything has been abstracted into make commands.
+Below is the full lists of commands you can run.
+
+```bash 
+make task1A
+```
+
 ## Generating the PDF Reports
 
 Separate from the project submission, converts all latex files (e.g. for task notes, report drafts and can be found in /latex) and the notebook to PDF and stores in docs. 

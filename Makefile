@@ -33,7 +33,7 @@ empty:
 	        $(BUILDDIR)/*.synctex.gz \
 	        $(BUILDDIR)/*.fdb_latexmk
 
-plots:
+task1A:
 	python src/generate_plots.py
 
 notebook:
