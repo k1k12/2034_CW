@@ -37,6 +37,4 @@ task1A:
 	python src/generate_plots.py
 
 notebook:
-	jupyter nbconvert --to notebook --execute notebooks/wine_analysis.ipynb \
-		--output wine_analysis_output.ipynb \
-		--output-dir notebooks
+	jupyter nbconvert --to pdf --execute notebooks/wine_analysis.ipynb --output-dir=docs
