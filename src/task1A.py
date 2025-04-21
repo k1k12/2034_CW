@@ -1,23 +1,13 @@
-import pandas as pd
-import numpy as np
+from utils import init_data
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Load data
-wine_red = pd.read_csv("datasets/winequality-red.csv",sep=";")
-wine_white = pd.read_csv("datasets/winequality-white.csv",sep=";")
-wine_red.columns = wine_red.columns.str.strip()
-wine_white.columns = wine_white.columns.str.strip()
+# Plot set up
 
-# Set global style
-sns.set_theme(style="whitegrid", font_scale=1.2)
-palette_red = sns.color_palette("Reds_r", as_cmap=True)
-palette_white = sns.color_palette("Blues", as_cmap=True)
+wine_red, wine_white, palette_red, palette_white = init_data()
 
 # For Combined plot: red vs white
 fig, axes = plt.subplots(1, 2, figsize=(12, 5))
-
-# Plot set up
 
 # Red
 sns.countplot(data=wine_red, x="quality", hue="quality",ax=axes[0],palette="Reds_r",legend=False)
