@@ -22,7 +22,7 @@ axes[1].set_xlabel("Quality Score")
 axes[1].set_ylabel("Count")
 
 # Both plot
-plt.suptitle("Quality Distributions: Red vs White Wine", fontsize=16, weight='bold')
+plt.suptitle("Quality Distributions: Red vs White Wine", fontsize=16, weight="bold")
 plt.tight_layout(rect=[0, 0, 1, 0.95])
 plt.savefig("figures/wine_quality_comparison.png", dpi=300)
 plt.show()
@@ -34,7 +34,7 @@ plt.title("Red Wine Quality Distribution", fontsize=14)
 plt.xlabel("Quality Score")
 plt.ylabel("Count")
 plt.tight_layout()
-plt.savefig('figures/red_wine_quality.png', dpi=300)
+plt.savefig("figures/red_wine_quality.png", dpi=300)
 plt.show()
 
 # White wine plot
