@@ -8,18 +8,18 @@ wine_red, wine_white, palette_red, palette_white = init_data()
 
 # Add alcohol category
 def add_alcohol_category(df):
-    mean = df['alcohol'].mean()
-    std = df['alcohol'].std()
+    mean = df["alcohol"].mean()
+    std = df["alcohol"].std()
     
     def categorize(alc):
         if alc < mean - std:
-            return 'low'
+            return "low"
         elif alc > mean + std:
-            return 'high'
+            return "high"
         else:
-            return 'mid'
+            return "mid"
     
-    return df.assign(alcohol_cat=df['alcohol'].apply(categorize))
+    return df.assign(alcohol_cat=df["alcohol"].apply(categorize))
 
 # Apply to both datasets
 wine_red = add_alcohol_category(wine_red)
