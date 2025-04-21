@@ -34,7 +34,7 @@ empty:
 	        $(BUILDDIR)/*.fdb_latexmk
 
 task1A:
-	python src/generate_plots.py
+	python src/task1A.py
 
 notebook:
 	jupyter nbconvert --to pdf --execute notebooks/wine_analysis.ipynb --output-dir=docs
