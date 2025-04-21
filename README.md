@@ -61,6 +61,8 @@ jupyter notebook notebooks/wine_analysis.ipynb
 To view progress, run different files and get the feel of my project, everything has been abstracted into make commands.
 Below is the full lists of commands you can run.
 
+**Task 1A**
+
 ```bash 
 make task1A
 ```
