@@ -1,6 +1,6 @@
 .PHONY: pdf empty
 
-TEXFILES = report task1A
+TEXFILES = task_report
 SRCDIR = latex
 BUILDDIR = bin
 ENDDIR = docs
