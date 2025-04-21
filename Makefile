@@ -1,6 +1,6 @@
 .PHONY: pdf empty
 
-TEXFILES = report task1A
+TEXFILES = task_report
 SRCDIR = latex
 BUILDDIR = bin
 ENDDIR = docs
@@ -35,6 +35,9 @@ empty:
 
 task1A:
 	python src/task1A.py
+
+task1B:
+	python src/task1B.py
 
 notebook:
 	jupyter nbconvert --to pdf --execute notebooks/wine_analysis.ipynb --output-dir=docs
