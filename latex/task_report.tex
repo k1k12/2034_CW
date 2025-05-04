@@ -4,13 +4,12 @@
 \usepackage{caption}
 \usepackage{float}
 \usepackage{booktabs}
-\usepackage{lipsum}
 \usepackage{setspace}
 \usepackage{parskip}
 \usepackage{fancyhdr}
 \input{version.tex}
 
-\title{Task 1A: Initial Data Analysis}
+\title{Tasks 1A–1C: Exploratory Data Analysis of Wine Quality}
 \author{Sofia French}
 
 \pagestyle{fancy}
@@ -30,11 +29,13 @@
 
 \section*{Overview}
 
-This document summarises the steps completed for all tasks - firstly, 1A - in the data science project. The focus has been on understanding how perceived wine quality varies between red and white varieties, through data analysis: specifically, distribution plots.
+This document presents the exploratory data analysis (EDA) conducted as part of Tasks 1A to 1C in the wine quality prediction project. The goal is to investigate how key physicochemical properties — including alcohol and residual sugar — relate to perceived wine quality in red and white wines. This analysis will guide future predictive modelling.
 
-\section*{Quality Distribution – Red Wine}
+\section*{Task 1A: Initial Data Analysis}
 
-The first analysis targeted the distribution of the \texttt{quality} variable in the red wine dataset. The quality values range from 3 to 8, with most samples concentrated around 5 and 6.
+\subsection*{Quality Distribution – Red Wine}
+
+The first analysis focused on the distribution of the \texttt{quality} variable in the red wine dataset. The values range from 3 to 8, with most samples concentrated around 5 and 6.
 
 \begin{figure}[H]
     \centering
@@ -43,11 +44,11 @@ The first analysis targeted the distribution of the \texttt{quality} variable in
     \label{fig:red_quality}
 \end{figure}
 
-\textbf{Observation:} The majority of red wine samples are rated as quality 5 and 6, which together make up the bulk of the dataset. There is a sharp drop for higher quality scores (7 and 8), and very few samples with scores below 4.
+\textbf{Observation:} The majority of red wine samples are rated 5 or 6 in quality. Higher scores (7 and 8) occur less frequently, and very few samples are rated below 4.
 
-\section*{Quality Distribution – White Wine}
+\subsection*{Quality Distribution – White Wine}
 
-The same analysis was performed on the white wine dataset.
+The same distribution analysis was applied to the white wine dataset.
 
 \begin{figure}[H]
     \centering
@@ -56,11 +57,12 @@ The same analysis was performed on the white wine dataset.
     \label{fig:white_quality}
 \end{figure}
 
-\textbf{Observation:} Like red wines, most white wines fall into the 5–6 quality range. However, white wines show a broader spread — with more wines rated as 7 and 8 compared to red. There's also a noticeable number of white wines rated as 4, which wasn't as prominent in the red wine data.
+\textbf{Observation:} Like red wine, white wine samples mostly fall in the 5–6 quality range. However, white wine has a wider spread, with a noticeable number of samples rated 7 or 8, and more rated 4 as well.
 
-\section*{Red vs. White Comparison}
+\subsection*{Red vs White Comparison}
 
-To better understand how red and white wines compare, both quality distributions were plotted together (see Figure~\ref{fig:combined_quality}). It is important to note that the white wine dataset contains over three times as many samples as the red wine dataset (4,898 vs. 1,599), which impacts the visual scale and interpretation.
+To compare the two datasets, the quality distributions were plotted side-by-side.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{../figures/wine_quality_comparison.png}
@@ -70,31 +72,26 @@ To better understand how red and white wines compare, both quality distributions
 
 \textbf{Interpretation:}
 \begin{itemize}
-    \item \textbf{Red Wines:} Quality scores are tightly clustered around 5 and 6, with relatively few samples scoring outside that range. This suggests consistency, but also limited variation.
-    \item \textbf{White Wines:} While also peaking at 5 and 6, the distribution is notably wider. A significant number of samples score 7, 8, or even 9 — which are absent from the red wine data. There are also more wines scoring 4.
-    \item \textbf{Sample Size Consideration:} The broader spread in the white wine distribution is partly due to the **larger sample size**, which introduces more variability and makes higher and lower quality scores more visible.
-    \item \textbf{Overall Implication:} While both types of wine tend to cluster around mid-level quality, white wine exhibits a **greater diversity** in perceived quality, which may point to differences in grape variety, fermentation control, or batch variation.
+    \item Red wine quality scores are tightly clustered around 5 and 6.
+    \item White wine exhibits more diversity, with higher and lower quality ratings more common.
+    \item This variation may be influenced by grape types, fermentation techniques, or sample size (white wine has over three times more records).
 \end{itemize}
-
-These early observations will guide further investigation into physicochemical factors that may explain why some wines — especially white — achieve higher sensory scores.
 
 \newpage
 \section*{Task 1B: Alcohol Content and Wine Quality}
 
 \subsection*{Overview}
 
-Task 1B explores how the \texttt{alcohol} variable relates to perceived wine quality. A key idea in this analysis is that alcohol concentration — influenced by sugar and fermentation — can potentially explain differences in sensory quality ratings. 
-
-The alcohol values in both datasets were categorised into three levels: \texttt{low}, \texttt{mid}, and \texttt{high}, based on their mean and standard deviation:
+This task examines whether alcohol content is associated with perceived quality. Alcohol levels were categorised as \texttt{low}, \texttt{mid}, or \texttt{high} based on the dataset's mean and standard deviation:
 \begin{itemize}
-    \item \texttt{low} < (mean - std)
-    \item \texttt{mid} within 1 std of the mean
-    \item \texttt{high} > (mean + std)
+    \item \texttt{low}: below (mean – standard deviation)
+    \item \texttt{mid}: within one standard deviation of the mean
+    \item \texttt{high}: above (mean + standard deviation)
 \end{itemize}
 
-This discretisation results in a new variable, \texttt{alcohol\_cat}, which is used to compare quality across different alcohol levels.
+The new variable \texttt{alcohol\_cat} enables comparison of quality across these groups.
 
-\section*{Alcohol vs Quality – Red Wine}
+\subsection*{Red Wine}
 
 \begin{figure}[H]
     \centering
@@ -105,12 +102,12 @@ This discretisation results in a new variable, \texttt{alcohol\_cat}, which is u
 
 \textbf{Observation:}
 \begin{itemize}
-    \item Red wines with \texttt{high} alcohol content tend to have higher quality scores than those with \texttt{low} alcohol content.
-    \item The distribution is clearly shifted upwards with increasing alcohol.
-    \item Low alcohol wines rarely score above 6.
+    \item Red wines with higher alcohol levels tend to have higher quality scores.
+    \item There is a clear upward shift in the distribution of quality from \texttt{low} to \texttt{high} alcohol groups.
+    \item Low-alcohol red wines are rarely rated above 6.
 \end{itemize}
 
-\section*{Alcohol vs Quality – White Wine}
+\subsection*{White Wine}
 
 \begin{figure}[H]
     \centering
@@ -121,19 +118,69 @@ This discretisation results in a new variable, \texttt{alcohol\_cat}, which is u
 
 \textbf{Observation:}
 \begin{itemize}
-    \item A similar trend is observed for white wine: higher alcohol wines tend to score better in quality.
-    \item The difference between categories is subtler than in red wine but still visible.
-    \item Low alcohol wines again perform worse overall.
+    \item A similar, though less pronounced, trend is observed in white wine.
+    \item Higher alcohol white wines are rated slightly better, on average.
+    \item The distribution is narrower than in red wines.
 \end{itemize}
 
-\section*{Interpretation}
+\subsection*{Interpretation}
 
 \begin{itemize}
-    \item In both wine types, there is a clear positive relationship between alcohol content and quality rating.
-    \item This does not imply causation — alcohol may be correlated with other contributing factors (e.g. fermentation duration, residual sugar, or acidity).
-    \item However, \texttt{alcohol} appears to be a strong candidate for predictive modelling in future tasks.
+    \item Alcohol content is positively associated with wine quality for both types.
+    \item This may be due to alcohol signalling better fermentation or grape maturity.
+    \item \texttt{alcohol} appears to be a strong candidate for predictive modelling.
 \end{itemize}
 
-This analysis reinforces the idea that alcohol content is a meaningful signal of perceived quality in wine production and should be further explored in conjunction with other chemical variables.
+\newpage
+\section*{Task 1C: Residual Sugar and Sweetness Classification}
+
+\subsection*{Overview}
+
+This task explores whether residual sugar affects perceived quality. A new binary feature \texttt{isSweet} was created by splitting each dataset at the median residual sugar level:
+\begin{itemize}
+    \item \texttt{isSweet} = 1 if residual sugar $\geq$ median
+    \item \texttt{isSweet} = 0 otherwise
+\end{itemize}
+
+This provides a roughly balanced classification of wines into “dry” and “sweet”.
+
+\subsection*{Red Wine}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../figures/red_quality_by_sugar.png}
+    \caption{Red Wine Quality by Sweetness (\texttt{isSweet})}
+    \label{fig:red_quality_sweet}
+\end{figure}
+
+\textbf{Observation:}
+\begin{itemize}
+    \item Sweet red wines (\texttt{isSweet}=1) score slightly lower on average.
+    \item Quality distributions for dry and sweet red wines overlap substantially.
+\end{itemize}
+
+\subsection*{White Wine}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../figures/white_quality_by_sugar.png}
+    \caption{White Wine Quality by Sweetness (\texttt{isSweet})}
+    \label{fig:white_quality_sweet}
+\end{figure}
+
+\textbf{Observation:}
+\begin{itemize}
+    \item White wine shows a clearer quality distinction.
+    \item Dry wines tend to have higher scores than sweet ones.
+    \item Sweet white wines are more frequently rated 5 or lower.
+\end{itemize}
+
+\subsection*{Interpretation}
+
+\begin{itemize}
+    \item Residual sugar has a weak negative correlation with quality.
+    \item This suggests that drier wines may be perceived as higher quality, possibly due to taste expectations.
+    \item \texttt{isSweet} could be a useful feature in predictive models, though its influence is less than alcohol.
+\end{itemize}
 
 \end{document}
