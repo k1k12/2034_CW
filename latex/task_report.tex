@@ -232,7 +232,7 @@ To identify which variables might be most useful for predicting wine quality, co
 \begin{itemize}
     \item \textbf{Alcohol} again has the strongest positive correlation with quality ($r \approx 0.44$).
     \item \textbf{Residual sugar} and \textbf{density} are weakly negatively correlated with quality.
-    \item Sulphur dioxide variables remain strongly intercorrelated, which may introduce multicollinearity.
+    \item Sulphur dioxide variables remain strongly correlated.
 \end{itemize}
 
 \subsection*{Interpretation}
@@ -242,6 +242,88 @@ To identify which variables might be most useful for predicting wine quality, co
     \item \textbf{Volatile acidity} and \textbf{density} may serve as negative predictors.
     \item Highly correlated variable pairs (e.g., \texttt{free\_SO2} and \texttt{total\_SO2}) may be reduced to avoid redundancy.
     \item This correlation analysis will inform feature selection for the machine learning models in Task 3.
+\end{itemize}
+
+\newpage
+\newpage
+\section*{Task 3 – Predictive Modelling}
+
+The goal of this task was to experiment with machine learning approaches to predict wine quality based on physicochemical variables.
+
+\subsection*{Modelling Approaches}
+
+Two main types of models were explored:
+
+\begin{itemize}
+    \item \textbf{Binary Classification:} Predict whether a wine is “high quality” using thresholds on the quality score (e.g., $\geq$ 6).
+    \item \textbf{Regression:} Predict the exact quality score as a continuous numerical value.
+\end{itemize}
+
+\subsection*{Thresholds for Classification}
+
+To explore the impact of class definition, three thresholds were tested:
+
+\begin{itemize}
+    \item \textbf{Threshold $\geq$ 5:} Too lenient — the dataset becomes highly imbalanced.
+    \item \textbf{Threshold $\geq$ 6:} Balanced and realistic — this was the best-performing split overall.
+    \item \textbf{Threshold $\geq$ 7:} More strict — harder task due to fewer high-quality samples.
+\end{itemize}
+
+Each model was trained using a Random Forest, which was chosen for its robustness, non-linear capabilities, and ability to rank feature importance.
+
+\subsection*{Feature Processing}
+
+All features were numeric and standardised using \texttt{StandardScaler} from scikit-learn. The original \texttt{quality} column was excluded from the input features.
+
+---
+
+\section*{Task 4 – Model Evaluation}
+
+Each model was evaluated using \textbf{5-fold cross-validation} and tested on a held-out 20\% split. Evaluation metrics varied by model type:
+
+\subsection*{Binary Classification}
+
+\textbf{Threshold $\geq$ 5:}
+\begin{itemize}
+    \item F1-score (CV): 0.979
+    \item Accuracy: 95\%
+    \item ROC AUC: 0.910
+    \item \textit{Note: Model simply predicts class 1 — poor for real classification}
+\end{itemize}
+
+\textbf{Threshold $\geq$ 6 (Best Result):}
+\begin{itemize}
+    \item F1-score (CV): 0.817
+    \item Accuracy: 80\%
+    \item ROC AUC: 0.902
+    \item Balanced performance across both classes
+\end{itemize}
+
+\textbf{Threshold $\geq$ 7:}
+\begin{itemize}
+    \item F1-score (CV): 0.510
+    \item Accuracy: 94\%
+    \item ROC AUC: 0.955
+    \item High precision, low recall on minority class (class imbalance problem)
+\end{itemize}
+
+\subsection*{Regression Evaluation}
+
+The model predicted the actual wine quality as a continuous value. Results:
+
+\begin{itemize}
+    \item RMSE (CV): 0.609
+    \item RMSE (Test): 0.548
+    \item MAE: 0.422
+    \item $R^2$: 0.540
+\end{itemize}
+
+\subsection*{Conclusion}
+
+\begin{itemize}
+    \item Classification using threshold $\geq$ 6 yielded the most reliable performance, with balanced precision and recall and a high AUC.
+    \item Regression worked reasonably well but was limited by the narrow range and subjectivity of quality scores.
+    \item Future work could include hyperparameter tuning, model stacking, or testing other classifiers like Gradient Boosting or SVM.
 \end{itemize}
 
 \end{document}
