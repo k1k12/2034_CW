@@ -39,8 +39,14 @@ task1A:
 task1B:
 	python src/task1B.py
 
-task1C:
-	python src/task1C.py
+task1D:
+	python src/task1D.py
+
+task3:
+	python src/task3.py
+
+exten:
+	python src/exten.py
 
 notebook:
 	jupyter nbconvert --to pdf --execute notebooks/wine_analysis.ipynb --output-dir=docs

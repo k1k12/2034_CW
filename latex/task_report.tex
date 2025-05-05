@@ -29,7 +29,7 @@
 
 \section*{Overview}
 
-This document presents the exploratory data analysis (EDA) conducted as part of Tasks 1A to 1C in the wine quality prediction project. The goal is to investigate how key physicochemical properties — including alcohol and residual sugar — relate to perceived wine quality in red and white wines. This analysis will guide future predictive modelling.
+This document presents the exploratory data analysis (EDA) conducted as part of 2034 in the wine quality prediction project. The goal is to investigate how properties — including alcohol and residual sugar — of wines relate to quality in both red and white wines. This task analysis will guide future predictive modelling.
 
 \section*{Task 1A: Initial Data Analysis}
 
@@ -181,6 +181,149 @@ This provides a roughly balanced classification of wines into “dry” and “s
     \item Residual sugar has a weak negative correlation with quality.
     \item This suggests that drier wines may be perceived as higher quality, possibly due to taste expectations.
     \item \texttt{isSweet} could be a useful feature in predictive models, though its influence is less than alcohol.
+\end{itemize}
+
+\newpage
+\section*{Task 1D: Quality vs Sweetness}
+
+This task evaluates whether sweet wines are perceived as higher or lower quality, using the binary \texttt{isSweet} feature created in Task 1C.
+
+\textbf{Red Wine:}  
+The distributions for dry and sweet red wines are very similar. Sweet red wines show a slightly lower median quality score, but the overall shift is minimal.
+
+\textbf{White Wine:}  
+White wines show a clearer separation between dry and sweet. Dry white wines tend to score higher, while sweet white wines are more concentrated in the lower range (mostly 5 or below).
+
+\textbf{Conclusion:}  
+Sweetness appears to **negatively impact** perceived quality for white wines, but **has minimal effect** in reds. The \texttt{isSweet} feature may therefore contribute more to prediction in white wine modelling.
+
+\newpage
+\section*{Task 2: Correlation Analysis}
+
+To identify which variables might be most useful for predicting wine quality, correlation matrices were produced for both red and white wine datasets. The Pearson correlation coefficient was used as it measures **linear relationships** between continuous features. This is appropriate for the physicochemical variables provided.
+
+\subsection*{Red Wine Correlation Matrix}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../figures/red_wine_matrix.png}
+    \caption{Correlation Matrix for Red Wine (Pearson)}
+    \label{fig:red_corr}
+\end{figure}
+
+\textbf{Key Findings:}
+\begin{itemize}
+    \item \textbf{Alcohol} shows the strongest positive correlation with quality ($r \approx 0.48$).
+    \item \textbf{Volatile acidity} is moderately negatively correlated with quality.
+    \item \textbf{Sulphates} and \textbf{citric acid} show weak-to-moderate positive correlations.
+    \item \textbf{Free sulphur dioxide} and \textbf{total sulphur dioxide} are highly correlated with each other (redundant).
+\end{itemize}
+
+\subsection*{White Wine Correlation Matrix}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../figures/white_wine_matrix.png}
+    \caption{Correlation Matrix for White Wine (Pearson)}
+    \label{fig:white_corr}
+\end{figure}
+
+\textbf{Key Findings:}
+\begin{itemize}
+    \item \textbf{Alcohol} again has the strongest positive correlation with quality ($r \approx 0.44$).
+    \item \textbf{Residual sugar} and \textbf{density} are weakly negatively correlated with quality.
+    \item Sulphur dioxide variables remain strongly correlated.
+\end{itemize}
+
+\subsection*{Interpretation}
+
+\begin{itemize}
+    \item \textbf{Alcohol} is a consistently strong feature and will likely be a key predictor in modelling.
+    \item \textbf{Volatile acidity} and \textbf{density} may serve as negative predictors.
+    \item Highly correlated variable pairs (e.g., \texttt{free\_SO2} and \texttt{total\_SO2}) may be reduced to avoid redundancy.
+    \item This correlation analysis will inform feature selection for the machine learning models in Task 3.
+\end{itemize}
+
+\newpage
+\newpage
+\section*{Task 3 – Predictive Modelling}
+
+The goal of this task was to experiment with machine learning approaches to predict wine quality based on physicochemical variables.
+
+\subsection*{Modelling Approaches}
+
+Two main types of models were explored:
+
+\begin{itemize}
+    \item \textbf{Binary Classification:} Predict whether a wine is “high quality” using thresholds on the quality score (e.g., $\geq$ 6).
+    \item \textbf{Regression:} Predict the exact quality score as a continuous numerical value.
+\end{itemize}
+
+\subsection*{Thresholds for Classification}
+
+To explore the impact of class definition, three thresholds were tested:
+
+\begin{itemize}
+    \item \textbf{Threshold $\geq$ 5:} Too lenient — the dataset becomes highly imbalanced.
+    \item \textbf{Threshold $\geq$ 6:} Balanced and realistic — this was the best-performing split overall.
+    \item \textbf{Threshold $\geq$ 7:} More strict — harder task due to fewer high-quality samples.
+\end{itemize}
+
+Each model was trained using a Random Forest, which was chosen for its robustness, non-linear capabilities, and ability to rank feature importance.
+
+\subsection*{Feature Processing}
+
+All features were numeric and standardised using \texttt{StandardScaler} from scikit-learn. The original \texttt{quality} column was excluded from the input features.
+
+---
+
+\section*{Task 4 – Model Evaluation}
+
+Each model was evaluated using \textbf{5-fold cross-validation} and tested on a held-out 20\% split. Evaluation metrics varied by model type:
+
+\subsection*{Binary Classification}
+
+\textbf{Threshold $\geq$ 5:}
+\begin{itemize}
+    \item F1-score (CV): 0.979
+    \item Accuracy: 95\%
+    \item ROC AUC: 0.910
+    \item \textit{Note: Model simply predicts class 1 — poor for real classification}
+\end{itemize}
+
+\textbf{Threshold $\geq$ 6 (Best Result):}
+\begin{itemize}
+    \item F1-score (CV): 0.817
+    \item Accuracy: 80\%
+    \item ROC AUC: 0.902
+    \item Balanced performance across both classes
+\end{itemize}
+
+\textbf{Threshold $\geq$ 7:}
+\begin{itemize}
+    \item F1-score (CV): 0.510
+    \item Accuracy: 94\%
+    \item ROC AUC: 0.955
+    \item High precision, low recall on minority class (class imbalance problem)
+\end{itemize}
+
+\subsection*{Regression Evaluation}
+
+The model predicted the actual wine quality as a continuous value. Results:
+
+\begin{itemize}
+    \item RMSE (CV): 0.609
+    \item RMSE (Test): 0.548
+    \item MAE: 0.422
+    \item $R^2$: 0.540
+\end{itemize}
+
+\subsection*{Conclusion}
+
+\begin{itemize}
+    \item Classification using threshold $\geq$ 6 yielded the most reliable performance, with balanced precision and recall and a high AUC.
+    \item Regression worked reasonably well but was limited by the narrow range and subjectivity of quality scores.
+    \item Future work could include hyperparameter tuning, model stacking, or testing other classifiers like Gradient Boosting or SVM.
 \end{itemize}
 
 \end{document}
