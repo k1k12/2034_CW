@@ -1,0 +1,22 @@
+[project]
+name = "CSC2034_DataScience"
+version = "0.1.0"
+authors = [
+    { name = "Sofia", email = "c3005799@newcastle.ac.uk" }
+]
+requires-python = ">=3.8"
+
+dependencies = [
+    "pandas",
+    "numpy",
+    "seaborn",
+    "matplotlib",
+    "scikit-learn",
+    "notebook",
+    "ipykernel",
+    "pandoc",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
