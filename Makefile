@@ -17,7 +17,7 @@ endef
 export VERSION_INFO
 
 pdf:
-	jupyter nbconvert --to pdf --output-dir=docs notebooks/wine_analysis.ipynb
+	jupyter nbconvert --to pdf --output-dir=docs notebook/wine_analysis.ipynb
 	@echo "$$VERSION_INFO" > $(SRCDIR)/version.tex
 	@for file in $(TEXFILES); do \
 		echo "Compiling $$file..."; \
@@ -53,4 +53,4 @@ exten:
 	python src/exten.py
 
 notebook:
-	jupyter nbconvert --to pdf --execute notebooks/wine_analysis.ipynb --output-dir=docs
+	jupyter nbconvert --to pdf --execute notebook/wine_analysis.ipynb --output-dir=docs
