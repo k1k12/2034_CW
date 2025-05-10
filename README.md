@@ -2,6 +2,18 @@
 
 A data science project analysing and predicting the quality of Vinho Verde wines using provided properties. Includes EDA, feature engineering, and machine learning models for classification and regression.
 
+
+CSC2034/
+├── docs/ # Generated PDF of notebook
+├── figures/ # For generated figures referenced in my report
+├── notebook/ # Jupyter notebook
+│ └── wine_analysis.ipynb 
+├── datasets/ # Contains wine datasets
+│ └── README.md
+├── src/ # Rough drafts of code
+├── README.md # Project description & details to run
+├── requirements.txt # Python dependencies
+
 ---
 
 ### Requirements
