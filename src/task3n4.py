@@ -23,7 +23,7 @@ df = wine_red.copy()
 
 thresholds = [5, 6, 7]
 for thresh in thresholds:
-    print(f"\n########## Classify for threshold: {thresh} ##########")
+    print(f"\n thresh: {thresh}")
 
     df["quality_label"] = (df["quality"] >= thresh).astype(int)
 

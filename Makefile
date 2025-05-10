@@ -2,7 +2,8 @@
 
 TEXFILES = task_report
 SRCDIR = latex
-BUILDDIR = bin
+BUILDDIR = bin docs figures
+BIN = bin
 ENDDIR = docs
 
 GIT_HASH := $(shell git rev-parse --short HEAD)
@@ -16,22 +17,25 @@ endef
 export VERSION_INFO
 
 pdf:
+	jupyter nbconvert --to pdf --output-dir=docs notebooks/wine_analysis.ipynb
 	@echo "$$VERSION_INFO" > $(SRCDIR)/version.tex
 	@for file in $(TEXFILES); do \
 		echo "Compiling $$file..."; \
 		(cd $(SRCDIR) && latexmk -pdf -silent $$file.tex); \
 		mv $(BUILDDIR)/$$file.pdf $(ENDDIR)/$$file.pdf; \
 	done
-	jupyter nbconvert --to pdf --output-dir=docs notebooks/wine_analysis.ipynb
 
 empty:
-	@echo "Cleaning $(BUILDDIR)..."
-	@rm -f $(BUILDDIR)/*.aux \
-	        $(BUILDDIR)/*.log \
-	        $(BUILDDIR)/*.fls \
-	        $(BUILDDIR)/*.out \
-	        $(BUILDDIR)/*.synctex.gz \
-	        $(BUILDDIR)/*.fdb_latexmk
+	@for dir in $(BUILDDIR); do \
+		echo "Cleaning $$dir..."; \
+		rm -f $$dir/*.aux $$dir/*.log $$dir/*.fls $$dir/*.out $$dir/*.synctex.gz $$dir/*.fdb_latexmk $$dir/*.pdf $$dir/*.png; \
+	done
+
+bin empty:
+	@for dir in $(BIN); do \
+		echo "Cleaning $$dir..."; \
+		rm -f $$dir/*.aux $$dir/*.log $$dir/*.fls $$dir/*.out $$dir/*.synctex.gz $$dir/*.fdb_latexmk $$dir/*.pdf $$dir/*.png; \
+	done
 
 task1A:
 	python src/task1A.py
