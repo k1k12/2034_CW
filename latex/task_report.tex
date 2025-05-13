@@ -9,7 +9,7 @@
 \usepackage{fancyhdr}
 \input{version.tex}
 
-\title{Tasks 1A–1C: Exploratory Data Analysis of Wine Quality}
+\title{Tasks 1A--4 and Extensions: Exploratory Data Analysis and Modelling of Wine Quality}
 \author{Sofia French}
 
 \pagestyle{fancy}
@@ -28,302 +28,202 @@
 \vspace{1em}
 
 \section*{Overview}
+This document presents the full exploratory data analysis (EDA) and modelling tasks conducted as part of the wine quality prediction project. Both red and white wine datasets are analysed. Relationships between alcohol, residual sugar, and quality are explored, followed by feature engineering and classification/regression modelling. Extensions investigate interactions between alcohol and sweetness.
 
-This document presents the exploratory data analysis (EDA) conducted as part of 2034 in the wine quality prediction project. The goal is to investigate how properties — including alcohol and residual sugar — of wines relate to quality in both red and white wines. This task analysis will guide future predictive modelling.
-
+\newpage
 \section*{Task 1A: Initial Data Analysis}
 
-\subsection*{Quality Distribution – Red Wine}
-
-The first analysis focused on the distribution of the \texttt{quality} variable in the red wine dataset. The values range from 3 to 8, with most samples concentrated around 5 and 6.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../figures/task1a_box_both.png}
+    \caption{Boxplot of Quality Scores in Red and White Wine Datasets}
+    \label{fig:task1a_box_both}
+\end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{../figures/red_wine_quality.png}
-    \caption{Distribution of Quality Scores in Red Wine Dataset}
-    \label{fig:red_quality}
+    \includegraphics[width=0.6\textwidth]{../figures/task1a_violin_both.png}
+    \caption{Violin Plot: Red vs White Wine Quality Distribution}
+    \label{fig:task1a_violin_both}
 \end{figure}
 
-\textbf{Observation:} The majority of red wine samples are rated 5 or 6 in quality. Higher scores (7 and 8) occur less frequently, and very few samples are rated below 4.
-
-\subsection*{Quality Distribution – White Wine}
-
-The same distribution analysis was applied to the white wine dataset.
+\textbf{Interpretation:} Most red and white wines are rated between 5 and 6, but white wines have a wider spread. This may reflect differences in production or grape characteristics.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{../figures/white_wine_quality.png}
-    \caption{Distribution of Quality Scores in White Wine Dataset}
-    \label{fig:white_quality}
+    \includegraphics[width=0.95\textwidth]{../figures/init_scatterplot_matrix_red.png}
+    \caption{Red Wine: Scatterplot Matrix of Selected Features by Quality}
+    \label{fig:init_scatterplot_matrix_red}
 \end{figure}
-
-\textbf{Observation:} Like red wine, white wine samples mostly fall in the 5–6 quality range. However, white wine has a wider spread, with a noticeable number of samples rated 7 or 8, and more rated 4 as well.
-
-\subsection*{Red vs White Comparison}
-
-To compare the two datasets, the quality distributions were plotted side-by-side.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{../figures/wine_quality_comparison.png}
-    \caption{Side-by-Side Distribution of Red and White Wine Quality}
-    \label{fig:combined_quality}
+    \includegraphics[width=0.95\textwidth]{../figures/init_scatterplot_matrix_white.png}
+    \caption{White Wine: Scatterplot Matrix of Selected Features by Quality}
+    \label{fig:init_scatterplot_matrix_white}
 \end{figure}
-
-\textbf{Interpretation:}
-\begin{itemize}
-    \item Red wine quality scores are tightly clustered around 5 and 6.
-    \item White wine exhibits more diversity, with higher and lower quality ratings more common.
-    \item This variation may be influenced by grape types, fermentation techniques, or sample size (white wine has over three times more records).
-\end{itemize}
 
 \newpage
-\section*{Task 1B: Alcohol Content and Wine Quality}
+\section*{Task 1B: Alcohol Content and Quality}
 
-\subsection*{Overview}
-
-This task examines whether alcohol content is associated with perceived quality. Alcohol levels were categorised as \texttt{low}, \texttt{mid}, or \texttt{high} based on the dataset's mean and standard deviation:
-\begin{itemize}
-    \item \texttt{low}: below (mean – standard deviation)
-    \item \texttt{mid}: within one standard deviation of the mean
-    \item \texttt{high}: above (mean + standard deviation)
-\end{itemize}
-
-The new variable \texttt{alcohol\_cat} enables comparison of quality across these groups.
-
-\subsection*{Red Wine}
+Alcohol content was categorised as \texttt{low}, \texttt{mid}, or \texttt{high} based on the mean and standard deviation.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../figures/red_quality_by_alcohol.png}
-    \caption{Red Wine Quality by Alcohol Category}
-    \label{fig:red_quality_alcohol}
+    \includegraphics[width=0.6\textwidth]{../figures/task1c_box_red.png}
+    \caption{Red Wine: Quality by Alcohol Category}
+    \label{fig:task1b_box_red}
 \end{figure}
-
-\textbf{Observation:}
-\begin{itemize}
-    \item Red wines with higher alcohol levels tend to have higher quality scores.
-    \item There is a clear upward shift in the distribution of quality from \texttt{low} to \texttt{high} alcohol groups.
-    \item Low-alcohol red wines are rarely rated above 6.
-\end{itemize}
-
-\subsection*{White Wine}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../figures/white_quality_by_alcohol.png}
-    \caption{White Wine Quality by Alcohol Category}
-    \label{fig:white_quality_alcohol}
+    \includegraphics[width=0.6\textwidth]{../figures/task1c_box_white.png}
+    \caption{White Wine: Quality by Alcohol Category}
+    \label{fig:task1b_box_white}
 \end{figure}
 
-\textbf{Observation:}
-\begin{itemize}
-    \item A similar, though less pronounced, trend is observed in white wine.
-    \item Higher alcohol white wines are rated slightly better, on average.
-    \item The distribution is narrower than in red wines.
-\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../figures/task1c_violin_red.png}
+    \caption{Red Wine: Violin Plot of Quality by Alcohol Category}
+    \label{fig:task1b_violin_red}
+\end{figure}
 
-\subsection*{Interpretation}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../figures/task1c_violin_white.png}
+    \caption{White Wine: Violin Plot of Quality by Alcohol Category}
+    \label{fig:task1b_violin_white}
+\end{figure}
 
-\begin{itemize}
-    \item Alcohol content is positively associated with wine quality for both types.
-    \item This may be due to alcohol signalling better fermentation or grape maturity.
-    \item \texttt{alcohol} appears to be a strong candidate for predictive modelling.
-\end{itemize}
+\textbf{Conclusion:} Alcohol is positively associated with quality in both datasets, with red wine showing a clearer pattern.
 
 \newpage
-\section*{Task 1C: Residual Sugar and Sweetness Classification}
+\section*{Task 1C: Residual Sugar and Sweetness}
 
-\subsection*{Overview}
-
-This task explores whether residual sugar affects perceived quality. A new binary feature \texttt{isSweet} was created by splitting each dataset at the median residual sugar level:
-\begin{itemize}
-    \item \texttt{isSweet} = 1 if residual sugar $\geq$ median
-    \item \texttt{isSweet} = 0 otherwise
-\end{itemize}
-
-This provides a roughly balanced classification of wines into “dry” and “sweet”.
-
-\subsection*{Red Wine}
+The feature \texttt{isSweet} was created by splitting at the median of residual sugar.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../figures/red_quality_by_sugar.png}
-    \caption{Red Wine Quality by Sweetness (\texttt{isSweet})}
-    \label{fig:red_quality_sweet}
+    \includegraphics[width=0.6\textwidth]{../figures/task1e_box_red.png}
+    \caption{Red Wine: Quality by Sweetness (\texttt{isSweet})}
+    \label{fig:task1c_box_red}
 \end{figure}
-
-\textbf{Observation:}
-\begin{itemize}
-    \item Sweet red wines (\texttt{isSweet}=1) score slightly lower on average.
-    \item Quality distributions for dry and sweet red wines overlap substantially.
-\end{itemize}
-
-\subsection*{White Wine}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../figures/white_quality_by_sugar.png}
-    \caption{White Wine Quality by Sweetness (\texttt{isSweet})}
-    \label{fig:white_quality_sweet}
+    \includegraphics[width=0.6\textwidth]{../figures/task1e_box_white.png}
+    \caption{White Wine: Quality by Sweetness (\texttt{isSweet})}
+    \label{fig:task1c_box_white}
 \end{figure}
 
-\textbf{Observation:}
-\begin{itemize}
-    \item White wine shows a clearer quality distinction.
-    \item Dry wines tend to have higher scores than sweet ones.
-    \item Sweet white wines are more frequently rated 5 or lower.
-\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../figures/task1e_violin_red.png}
+    \caption{Red Wine: Violin Plot of Quality by Sweetness}
+    \label{fig:task1c_violin_red}
+\end{figure}
 
-\subsection*{Interpretation}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../figures/task1e_violin_white.png}
+    \caption{White Wine: Violin Plot of Quality by Sweetness}
+    \label{fig:task1c_violin_white}
+\end{figure}
 
-\begin{itemize}
-    \item Residual sugar has a weak negative correlation with quality.
-    \item This suggests that drier wines may be perceived as higher quality, possibly due to taste expectations.
-    \item \texttt{isSweet} could be a useful feature in predictive models, though its influence is less than alcohol.
-\end{itemize}
+\textbf{Conclusion:} Sweetness has a weak negative effect on quality, especially in white wine.
 
 \newpage
-\section*{Task 1D: Quality vs Sweetness}
+\section*{Extension 1: Alcohol \& Sweetness Interaction}
 
-This task evaluates whether sweet wines are perceived as higher or lower quality, using the binary \texttt{isSweet} feature created in Task 1C.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{../figures/exten1_both.png}
+    \caption{All Wines: Quality by Alcohol and Sweetness}
+    \label{fig:exten1_both}
+\end{figure}
 
-\textbf{Red Wine:}  
-The distributions for dry and sweet red wines are very similar. Sweet red wines show a slightly lower median quality score, but the overall shift is minimal.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{../figures/exten1_red.png}
+    \caption{Red Wine: Quality by Alcohol and Sweetness}
+    \label{fig:exten1_red}
+\end{figure}
 
-\textbf{White Wine:}  
-White wines show a clearer separation between dry and sweet. Dry white wines tend to score higher, while sweet white wines are more concentrated in the lower range (mostly 5 or below).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{../figures/exten1_white.png}
+    \caption{White Wine: Quality by Alcohol and Sweetness}
+    \label{fig:exten1_white}
+\end{figure}
 
-\textbf{Conclusion:}  
-Sweetness appears to **negatively impact** perceived quality for white wines, but **has minimal effect** in reds. The \texttt{isSweet} feature may therefore contribute more to prediction in white wine modelling.
+\textbf{Interpretation:} Quality increases with alcohol regardless of sweetness, but dry wines tend to benefit more. Sweetness reduces average quality in high-alcohol white wines.
 
 \newpage
 \section*{Task 2: Correlation Analysis}
 
-To identify which variables might be most useful for predicting wine quality, correlation matrices were produced for both red and white wine datasets. The Pearson correlation coefficient was used as it measures **linear relationships** between continuous features. This is appropriate for the physicochemical variables provided.
-
-\subsection*{Red Wine Correlation Matrix}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{../figures/task2_red.png}
+    \caption{Red Wine: Pearson Correlation Matrix}
+    \label{fig:task2_red}
+\end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../figures/red_wine_matrix.png}
-    \caption{Correlation Matrix for Red Wine (Pearson)}
-    \label{fig:red_corr}
+    \includegraphics[width=0.85\textwidth]{../figures/task2_white.png}
+    \caption{White Wine: Pearson Correlation Matrix}
+    \label{fig:task2_white}
 \end{figure}
 
-\textbf{Key Findings:}
-\begin{itemize}
-    \item \textbf{Alcohol} shows the strongest positive correlation with quality ($r \approx 0.48$).
-    \item \textbf{Volatile acidity} is moderately negatively correlated with quality.
-    \item \textbf{Sulphates} and \textbf{citric acid} show weak-to-moderate positive correlations.
-    \item \textbf{Free sulphur dioxide} and \textbf{total sulphur dioxide} are highly correlated with each other (redundant).
-\end{itemize}
-
-\subsection*{White Wine Correlation Matrix}
+\newpage
+\section*{Task 3: Binary Classification}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../figures/white_wine_matrix.png}
-    \caption{Correlation Matrix for White Wine (Pearson)}
-    \label{fig:white_corr}
+    \includegraphics[width=\textwidth]{../figures/task3_histogram_cv_red.png}
+    \caption{Red Wine: Cross-Validation Accuracy Across Thresholds}
+    \label{fig:task3_cv_red}
 \end{figure}
 
-\textbf{Key Findings:}
-\begin{itemize}
-    \item \textbf{Alcohol} again has the strongest positive correlation with quality ($r \approx 0.44$).
-    \item \textbf{Residual sugar} and \textbf{density} are weakly negatively correlated with quality.
-    \item Sulphur dioxide variables remain strongly correlated.
-\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../figures/task3_histogram_red.png}
+    \caption{Red Wine: Test Set Accuracy Distribution}
+    \label{fig:task3_test_red}
+\end{figure}
 
-\subsection*{Interpretation}
-
-\begin{itemize}
-    \item \textbf{Alcohol} is a consistently strong feature and will likely be a key predictor in modelling.
-    \item \textbf{Volatile acidity} and \textbf{density} may serve as negative predictors.
-    \item Highly correlated variable pairs (e.g., \texttt{free\_SO2} and \texttt{total\_SO2}) may be reduced to avoid redundancy.
-    \item This correlation analysis will inform feature selection for the machine learning models in Task 3.
-\end{itemize}
+\textbf{Conclusion:} Threshold 6 yielded the best balance of performance and class distribution.
 
 \newpage
-\newpage
-\section*{Task 3 – Predictive Modelling}
+\section*{Task 4: Regression and ROC Evaluation}
 
-The goal of this task was to experiment with machine learning approaches to predict wine quality based on physicochemical variables.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{../figures/task4_regression_red.png}
+    \caption{Red Wine: Predicted vs Actual Quality (Regression)}
+    \label{fig:task4_regr_red}
+\end{figure}
 
-\subsection*{Modelling Approaches}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{../figures/task4_regression_white.png}
+    \caption{White Wine: Predicted vs Actual Quality (Regression)}
+    \label{fig:task4_regr_white}
+\end{figure}
 
-Two main types of models were explored:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{../figures/task4_roc_red.png}
+    \caption{Red Wine: ROC Curve for Threshold 6}
+    \label{fig:task4_roc_red}
+\end{figure}
 
-\begin{itemize}
-    \item \textbf{Binary Classification:} Predict whether a wine is “high quality” using thresholds on the quality score (e.g., $\geq$ 6).
-    \item \textbf{Regression:} Predict the exact quality score as a continuous numerical value.
-\end{itemize}
-
-\subsection*{Thresholds for Classification}
-
-To explore the impact of class definition, three thresholds were tested:
-
-\begin{itemize}
-    \item \textbf{Threshold $\geq$ 5:} Too lenient — the dataset becomes highly imbalanced.
-    \item \textbf{Threshold $\geq$ 6:} Balanced and realistic — this was the best-performing split overall.
-    \item \textbf{Threshold $\geq$ 7:} More strict — harder task due to fewer high-quality samples.
-\end{itemize}
-
-Each model was trained using a Random Forest, which was chosen for its robustness, non-linear capabilities, and ability to rank feature importance.
-
-\subsection*{Feature Processing}
-
-All features were numeric and standardised using \texttt{StandardScaler} from scikit-learn. The original \texttt{quality} column was excluded from the input features.
-
----
-
-\section*{Task 4 – Model Evaluation}
-
-Each model was evaluated using \textbf{5-fold cross-validation} and tested on a held-out 20\% split. Evaluation metrics varied by model type:
-
-\subsection*{Binary Classification}
-
-\textbf{Threshold $\geq$ 5:}
-\begin{itemize}
-    \item F1-score (CV): 0.979
-    \item Accuracy: 95\%
-    \item ROC AUC: 0.910
-    \item \textit{Note: Model simply predicts class 1 — poor for real classification}
-\end{itemize}
-
-\textbf{Threshold $\geq$ 6 (Best Result):}
-\begin{itemize}
-    \item F1-score (CV): 0.817
-    \item Accuracy: 80\%
-    \item ROC AUC: 0.902
-    \item Balanced performance across both classes
-\end{itemize}
-
-\textbf{Threshold $\geq$ 7:}
-\begin{itemize}
-    \item F1-score (CV): 0.510
-    \item Accuracy: 94\%
-    \item ROC AUC: 0.955
-    \item High precision, low recall on minority class (class imbalance problem)
-\end{itemize}
-
-\subsection*{Regression Evaluation}
-
-The model predicted the actual wine quality as a continuous value. Results:
-
-\begin{itemize}
-    \item RMSE (CV): 0.609
-    \item RMSE (Test): 0.548
-    \item MAE: 0.422
-    \item $R^2$: 0.540
-\end{itemize}
-
-\subsection*{Conclusion}
-
-\begin{itemize}
-    \item Classification using threshold $\geq$ 6 yielded the most reliable performance, with balanced precision and recall and a high AUC.
-    \item Regression worked reasonably well but was limited by the narrow range and subjectivity of quality scores.
-    \item Future work could include hyperparameter tuning, model stacking, or testing other classifiers like Gradient Boosting or SVM.
-\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{../figures/task4_roc_white.png}
+    \caption{White Wine: ROC Curve for Threshold 6}
+    \label{fig:task4_roc_white}
+\end{figure}
 
 \end{document}
